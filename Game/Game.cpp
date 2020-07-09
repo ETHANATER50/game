@@ -55,19 +55,23 @@ bool Update(float dt) {
 	direction = ew::Vector2::rotate(direction, transform.angle);
 	transform.position += direction;
 
+	//transform.position = ew::clamp(transform.position, ew::Vector2{ 0,0 }, ew::Vector2{ 800, 600 });
 
-	if (transform.position.x > 800) transform.position.x = 0;
-	if (transform.position.x < 0) transform.position.x = 800;
-	if (transform.position.y > 600) transform.position.y = 0;
-	if (transform.position.y < 0) transform.position.y = 600;
+	transform.position.x = ew::clamp(transform.position.x, 0.0f, 800.0f);
+	transform.position.y = ew::clamp(transform.position.y, 0.0f, 600.0f);
+
+	//if (transform.position.x > 800) transform.position.x = 0;
+	//if (transform.position.x < 0) transform.position.x = 800;
+	//if (transform.position.y > 600) transform.position.y = 0;
+	//if (transform.position.y < 0) transform.position.y = 600;
 
 	//if (Core::Input::IsPressed('A')) position += ew::Vector2::left * (speed * dt);
 	//if (Core::Input::IsPressed('D')) position += ew::Vector2::right * (speed * dt);
 	//if (Core::Input::IsPressed('W')) position += ew::Vector2::up * (speed * dt);
 	//if (Core::Input::IsPressed('S')) position += ew::Vector2::down * (speed * dt);
 
-	if (Core::Input::IsPressed('A')) transform.angle -= 3 * dt;
-	if (Core::Input::IsPressed('D')) transform.angle += 3 * dt;
+	if (Core::Input::IsPressed('A')) transform.angle -= dt * ew::degreesToRadians(360.0f);
+	if (Core::Input::IsPressed('D')) transform.angle += dt * ew::degreesToRadians(360.0f);
 
 	return quit; 
 }
