@@ -34,7 +34,11 @@ namespace ew {
 		Color& operator *= (const Color& c) { r *= c.r, g *= c.g, b *= c.b; return *this; }
 		Color& operator /= (const Color& c) { r /= c.r, g /= c.g, b /= c.b; return *this; }
 
-		COLORREF pack888() const;		operator COLORREF() const { return pack888(); }
+		friend std::istream& operator >> (std::istream& stream, Color& c);
+
+		COLORREF pack888() const;
+
+		operator COLORREF() const { return pack888(); }
 
 	};
 

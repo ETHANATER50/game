@@ -10,6 +10,8 @@ namespace ew {
 		if (stream.is_open()) {
 			success = true;
 
+			stream >> color;
+
 			while (!stream.eof()) {
 				Vector2 point;
 				stream >> point;
@@ -44,5 +46,8 @@ namespace ew {
 
 			graphics.DrawLine(p1.x, p1.y, p2.x, p2.y);
 		}
+	}
+	void Shape::draw(Core::Graphics& graphics, const Transform& t) {
+		draw(graphics, t.position, t.scale, t.angle);
 	}
 }

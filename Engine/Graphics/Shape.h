@@ -2,6 +2,7 @@
 #include "core.h"
 #include "Math/Vector2.h"
 #include "Math/Color.h"
+#include "Math/Transform.h"
 #include <vector>
 #include <string>
 
@@ -14,6 +15,8 @@ namespace ew {
 		bool load(const std::string& filename);
 
 		void draw(Core::Graphics& graphics, ew::Vector2 position, float scale = 1.0f, float angle = 0.0f);
+
+		void draw(Core::Graphics& graphics, const Transform& t);
 
 		void setColor(Color _color) { color = _color; };
 		const Color& getColor() const { return color; };
