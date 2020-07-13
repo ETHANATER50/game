@@ -10,7 +10,7 @@ namespace ew {
 		if (stream.is_open()) {
 			success = true;
 
-			//stream >> transform;
+			stream >> transform;
 
 			std::string shapename;
 			stream >> shapename;

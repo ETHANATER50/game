@@ -10,7 +10,7 @@ namespace ew{
 		Transform(Vector2 position, float scale = 1, float angle = 0) : position{ position }, scale{ scale }, angle{ angle } {}
 
 
-		friend std::istream& operator >>(std::istream stream, Transform& t);
+		friend std::istream& operator >>(std::istream& stream, Transform& t);
 	};
 
 }

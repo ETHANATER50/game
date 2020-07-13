@@ -27,4 +27,10 @@ namespace ew {
 
 	//	return v;
 	//}
+
+	template<typename T>
+	inline T lerp(T a, T b, float t) {
+		t = clamp(t, 0.0f, 1.0f);
+		return (a + (b - a) * t);
+	}
 }
