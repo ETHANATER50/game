@@ -6,10 +6,6 @@
 #include <iostream>
 #include <string>
 
-//const size_t NUM_POINTS = 40;
-std::vector<ew::Vector2> points = { { 0, -3 }, { 3, 4 }, { -4, 0 }, {4, 0}, {-3, 4}, {0,-3} };//{ 0, -3 }, { 3, 3 }, { 0, 1 }, { -3, 3 }, { 0, -3 }
-ew::Color color{ 1,0,1 };
-
 float speed = 300.0f;
 
 ew::Vector2 velocity;
@@ -24,8 +20,6 @@ float t = 0;
 DWORD prevTime;
 DWORD deltaTime;
 
-//ew::Shape confuser;
-//ew::Transform transform{ {400, 300}, 4, 0 };
 
 Player player;
 ew::Actor enemy;
@@ -65,38 +59,11 @@ void Draw(Core::Graphics& graphics) {
 
 	float v = (std::sin(t) + 1.0f) * 0.5f;
 
-	//ew::Color c = ew::lerp(ew::Color{ 1, 0, 0 }, ew::Color{ 0, 1, 1 }, v);
-	//graphics.SetColor(c);
-	//ew::Vector2 p = ew::lerp(ew::Vector2{ 200, 200 }, ew::Vector2{ 600, 200 }, v);
-	//graphics.DrawString(p.x, p.y, "Last Starfighter");
-
 	if (gameOver) graphics.DrawString(400, 300, "Game Over!");
 
-
-
-	//confuser.draw(graphics, transform);
 	player.draw(graphics);
 	enemy.draw(graphics);
 
-	//graphics.SetColor(color);
-	////graphics.DrawLine(ew::random(0.0f, 800.0f), ew::random(0.0f, 600.0f), ew::random(0.0f, 800.0f), ew::random(0.0f, 600.0f));
-
-	//for (size_t i = 0; i < points.size() - 1; i++) {
-	//	ew::Vector2 p1 = points[i];
-	//	ew::Vector2 p2 = points[i + 1];
-
-	//	p1 *= scale;
-	//	p2 *= scale;
-
-	//	p1 = ew::Vector2::rotate(p1, angle);
-	//	p2 = ew::Vector2::rotate(p2, angle);
-
-
-	//	p1 += position;
-	//	p2 += position;
-
-	//	graphics.DrawLine(p1.x, p1.y, p2.x, p2.y);
-	//}
 }
 int main() { 
 

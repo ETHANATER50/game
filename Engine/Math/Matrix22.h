@@ -31,6 +31,38 @@ namespace ew {
 			m[0][1] = -sin(angle); m[1][1] = cos(angle);
 		}
 
+		void setIdentity() {
+			m[0][0] = 1; m[1][0] = 0;
+			m[0][1] = 0; m[1][1] = 1;
+		}
 
+		Matrix22 operator * (const Matrix22& mx) {
+			Matrix22 result;
+
+			result.m[0][0] = m[0][0] * mx.m[0][0] + m[1][0] * mx.m[0][1];
+			result.m[1][0] = m[0][0] * mx.m[1][0] + m[1][0] * mx.m[1][1];
+			result.m[0][1] = m[0][1] * mx.m[0][0] + m[1][1] * mx.m[0][1];
+			result.m[1][1] = m[0][1] * mx.m[1][0] + m[1][1] * mx.m[1][1];
+
+			return result;
+		}
+
+		Vector2 operator * (const Vector2& v) {
+			Vector2 result;
+
+			result.x = v.x * m[0][0] + v.y * m[0][1];
+			result.y = v.x * m[1][0] + v.y * m[1][1];
+
+			return result;
+		}
+
+		friend Vector2 operator * (const Vector2& v, const Matrix22& mx) {
+			Vector2 result;
+
+			result.x = v.x * mx.m[0][0] + v.y * mx.m[0][1];
+			result.y = v.x * mx.m[1][0] + v.y * mx.m[1][1];
+
+			return result;
+		}
 	};
 }

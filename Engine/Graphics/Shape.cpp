@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Shape.h"
+#include "Math/Matrix22.h"
 
 namespace ew {
 
@@ -30,15 +31,22 @@ namespace ew {
 	}
 	void ew::Shape::draw(Core::Graphics& graphics, ew::Vector2 position, float scale, float angle) {
 		graphics.SetColor(color);
+
+		ew::Matrix22 mxScale;
+		mxScale.scale(scale);
+
+		ew::Matrix22 mxRotate;
+		mxRotate.rotate(angle);
+
+		ew::Matrix22 mx = mxScale * mxRotate;
+
 		for (size_t i = 0; i < points.size() - 1; i++) {
 			ew::Vector2 p1 = points[i];
 			ew::Vector2 p2 = points[i + 1];
 
-			p1 *= scale;
-			p2 *= scale;
+			p1 = p1 * mx;
+			p2 = p2 * mx;
 
-			p1 = ew::Vector2::rotate(p1, angle);
-			p2 = ew::Vector2::rotate(p2, angle);
 
 
 			p1 += position;
