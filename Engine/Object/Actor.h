@@ -11,15 +11,15 @@ namespace ew {
 
 		~Actor() {}
 
-		bool load(const std::string& filename);
+		virtual bool load(const std::string& filename);
 
-		void update(float dt);
+		virtual void update(float dt);
 		void draw(Core::Graphics& graphics);
 
 		Transform& getTransform() { return transform; }
 		Shape& getShape() { return shape; }
 
-	private:
+	protected:
 		Transform transform;
 		Shape shape;
 	};

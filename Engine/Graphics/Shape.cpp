@@ -12,15 +12,15 @@ namespace ew {
 
 			stream >> color;
 
-			while (!stream.eof()) {
+			std::string line;
+			std::getline(stream, line);
+			size_t size = stoi(line);
+			
+			for (size_t i = 0; i < size; i++) {
 				Vector2 point;
 				stream >> point;
 
-				if (!stream.eof()) {
 				points.push_back(point);
-				}
-
-
 			}
 
 			stream.close();

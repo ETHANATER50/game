@@ -2,6 +2,7 @@
 #include "Math\Math.h"
 #include "Math/Random.h"
 #include "Object/Actor.h"
+#include "Actors/Player.h"
 #include <iostream>
 #include <string>
 
@@ -26,7 +27,7 @@ DWORD deltaTime;
 //ew::Shape confuser;
 //ew::Transform transform{ {400, 300}, 4, 0 };
 
-ew::Actor player;
+Player player;
 ew::Actor enemy;
 
 bool Update(float dt) { 
@@ -34,7 +35,7 @@ bool Update(float dt) {
 	frameTime = dt;
 
 	roundTime += dt;
-	if (roundTime >= 15) gameOver = true;
+	//if (roundTime >= 15) gameOver = true;
 
 	t = t + (dt * 3.0f);
 
@@ -45,43 +46,14 @@ bool Update(float dt) {
 	deltaTime = time - prevTime;
 	prevTime = time;
 
-	int x, y;
-	Core::Input::GetMousePos(x, y);
+	player.update(dt);
 
-	//ew::Vector2 target = ew::Vector2{ x, y };
-	//ew::Vector2 direction = target - position;
+	ew::Vector2 direction = player.getTransform().position - enemy.getTransform().position;
+	direction.normalize();
+	ew::Vector2 enemyVelocity = direction * 150.0f;
+	enemy.getTransform().position += enemyVelocity * dt;
 
-	//if (direction.length() < 150.0f) {
-	//position = position + (-direction.normalized() * speed);
-	//}
-	ew::Vector2 force;
-	if (Core::Input::IsPressed('W')) {
-		force = ew::Vector2::forward * thrust;
-	}
-	ew::Vector2 direction = force * dt;
-	force = ew::Vector2::rotate(force, player.getTransform().angle);
-
-	velocity = velocity + (force * dt);
-	velocity *= 0.98;
-	player.getTransform().position += velocity * dt;
-
-	//transform.position = ew::clamp(transform.position, ew::Vector2{ 0,0 }, ew::Vector2{ 800, 600 });
-
-	//transform.position.x = ew::clamp(transform.position.x, 0.0f, 800.0f);
-	//transform.position.y = ew::clamp(transform.position.y, 0.0f, 600.0f);
-
-	if (player.getTransform().position.x > 800) player.getTransform().position.x = 0;
-	if (player.getTransform().position.x < 0) player.getTransform().position.x = 800;
-	if (player.getTransform().position.y > 600) player.getTransform().position.y = 0;
-	if (player.getTransform().position.y < 0) player.getTransform().position.y = 600;
-
-	//if (Core::Input::IsPressed('A')) position += ew::Vector2::left * (speed * dt);
-	//if (Core::Input::IsPressed('D')) position += ew::Vector2::right * (speed * dt);
-	//if (Core::Input::IsPressed('W')) position += ew::Vector2::up * (speed * dt);
-	//if (Core::Input::IsPressed('S')) position += ew::Vector2::down * (speed * dt);
-
-	if (Core::Input::IsPressed('A')) player.getTransform().angle -= dt * ew::degreesToRadians(360.0f);
-	if (Core::Input::IsPressed('D')) player.getTransform().angle += dt * ew::degreesToRadians(360.0f);
+	enemy.getTransform().angle = std::atan2(direction.y, direction.x) + ew::degreesToRadians(90);
 
 	return quit; 
 }
@@ -93,10 +65,10 @@ void Draw(Core::Graphics& graphics) {
 
 	float v = (std::sin(t) + 1.0f) * 0.5f;
 
-	ew::Color c = ew::lerp(ew::Color{ 1, 0, 0 }, ew::Color{ 0, 1, 1 }, v);
-	graphics.SetColor(c);
-	ew::Vector2 p = ew::lerp(ew::Vector2{ 200, 200 }, ew::Vector2{ 600, 200 }, v);
-	graphics.DrawString(p.x, p.y, "Last Starfighter");
+	//ew::Color c = ew::lerp(ew::Color{ 1, 0, 0 }, ew::Color{ 0, 1, 1 }, v);
+	//graphics.SetColor(c);
+	//ew::Vector2 p = ew::lerp(ew::Vector2{ 200, 200 }, ew::Vector2{ 600, 200 }, v);
+	//graphics.DrawString(p.x, p.y, "Last Starfighter");
 
 	if (gameOver) graphics.DrawString(400, 300, "Game Over!");
 
