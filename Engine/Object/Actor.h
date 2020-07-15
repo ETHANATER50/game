@@ -12,6 +12,7 @@ namespace ew {
 		~Actor() {}
 
 		virtual bool load(const std::string& filename);
+		virtual void load(std::istream& stream);
 
 		virtual void update(float dt);
 		void draw(Core::Graphics& graphics);

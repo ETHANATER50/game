@@ -10,11 +10,10 @@ bool Player::load(const std::string& filename) {
 	if (stream.is_open()) {
 		success = true;
 
-		stream >> transform;
+		Actor::load(stream);
 
-		std::string shapename;
-		stream >> shapename;
-		shape.load(shapename);
+		stream >> thrust;
+		stream >> yawRate;
 
 		stream.close();
 	}
@@ -39,6 +38,8 @@ void Player::update(float dt) {
 	if (transform.position.y > 600) transform.position.y = 0;
 	if (transform.position.y < 0) transform.position.y = 600;
 
-	if (Core::Input::IsPressed('A')) transform.angle -= dt * ew::degreesToRadians(360.0f);
-	if (Core::Input::IsPressed('D')) transform.angle += dt * ew::degreesToRadians(360.0f);
+	if (Core::Input::IsPressed('A')) transform.angle -= dt * ew::degreesToRadians(yawRate);
+	if (Core::Input::IsPressed('D')) transform.angle += dt * ew::degreesToRadians(yawRate);
+
+	transform.update();
 }

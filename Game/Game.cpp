@@ -3,8 +3,10 @@
 #include "Math/Random.h"
 #include "Object/Actor.h"
 #include "Actors/Player.h"
+#include "Actors/Enemy.h"
 #include <iostream>
 #include <string>
+#include <list>
 
 float speed = 300.0f;
 
@@ -22,7 +24,11 @@ DWORD deltaTime;
 
 
 Player player;
-ew::Actor enemy;
+Enemy enemy;
+
+
+std::list<Enemy*> enemies;
+
 
 bool Update(float dt) { 
 
@@ -41,13 +47,11 @@ bool Update(float dt) {
 	prevTime = time;
 
 	player.update(dt);
+	enemy.update(dt);
 
-	ew::Vector2 direction = player.getTransform().position - enemy.getTransform().position;
-	direction.normalize();
-	ew::Vector2 enemyVelocity = direction * 150.0f;
-	enemy.getTransform().position += enemyVelocity * dt;
-
-	enemy.getTransform().angle = std::atan2(direction.y, direction.x) + ew::degreesToRadians(90);
+	for (Enemy* e : enemies) {
+		e->update(dt);
+	}
 
 	return quit; 
 }
@@ -64,6 +68,10 @@ void Draw(Core::Graphics& graphics) {
 	player.draw(graphics);
 	enemy.draw(graphics);
 
+	for (Enemy* e : enemies) {
+		e->draw(graphics);
+	}
+
 }
 int main() { 
 
@@ -72,6 +80,18 @@ int main() {
 
 	player.load("player.txt");
 	enemy.load("enemy.txt");
+	enemy.setTarget(&player);
+
+	for (size_t i = 0; i < 10; i++) {
+
+	Enemy* e = new Enemy;
+	e->load("enemy.txt");
+	e->setTarget(&player);
+	e->getTransform().position = { ew::random(0, 800), ew::random(0,600) };
+	e->setThrust(ew::random(50, 150));
+	enemies.push_back(e);
+	}
+
 
 	char name[] = "CSC196"; 
 	Core::Init(name, 800, 600); 

@@ -17,4 +17,19 @@ namespace ew {
 		return stream;
 	}
 
+	void Transform::update() {
+		ew::Matrix33 mxScale;
+		mxScale.scale(scale);
+
+		ew::Matrix33 mxRotate;
+		mxRotate.rotate(angle);
+
+		Matrix33 mxt;
+		mxt.translate(position);
+
+		matrix = mxScale * mxRotate * mxt;
+
+
+	}
+
 }

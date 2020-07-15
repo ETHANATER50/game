@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Shape.h"
-#include "Math/Matrix22.h"
+#include "Math/Matrix33.h"
 
 namespace ew {
 
@@ -32,13 +32,16 @@ namespace ew {
 	void ew::Shape::draw(Core::Graphics& graphics, ew::Vector2 position, float scale, float angle) {
 		graphics.SetColor(color);
 
-		ew::Matrix22 mxScale;
+		ew::Matrix33 mxScale;
 		mxScale.scale(scale);
 
-		ew::Matrix22 mxRotate;
+		ew::Matrix33 mxRotate;
 		mxRotate.rotate(angle);
 
-		ew::Matrix22 mx = mxScale * mxRotate;
+		Matrix33 mxt;
+		mxt.translate(position);
+
+		ew::Matrix33 mx = mxScale * mxRotate * mxt;
 
 		for (size_t i = 0; i < points.size() - 1; i++) {
 			ew::Vector2 p1 = points[i];
@@ -48,14 +51,21 @@ namespace ew {
 			p2 = p2 * mx;
 
 
-
-			p1 += position;
-			p2 += position;
-
 			graphics.DrawLine(p1.x, p1.y, p2.x, p2.y);
 		}
 	}
 	void Shape::draw(Core::Graphics& graphics, const Transform& t) {
-		draw(graphics, t.position, t.scale, t.angle);
+		graphics.SetColor(color);
+
+		for (size_t i = 0; i < points.size() - 1; i++) {
+			ew::Vector2 p1 = points[i];
+			ew::Vector2 p2 = points[i + 1];
+
+			p1 = p1 * t.matrix;
+			p2 = p2 * t.matrix;
+
+
+			graphics.DrawLine(p1.x, p1.y, p2.x, p2.y);
+		}
 	}
 }

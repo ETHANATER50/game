@@ -10,16 +10,20 @@ namespace ew {
 		if (stream.is_open()) {
 			success = true;
 
-			stream >> transform;
-
-			std::string shapename;
-			stream >> shapename;
-			shape.load(shapename);
+			load(stream);
 
 			stream.close();
 		}
 
 		return success;
+	}
+
+	void Actor::load(std::istream& stream) {
+		stream >> transform;
+
+		std::string shapename;
+		std::getline(stream, shapename);
+		shape.load(shapename);
 	}
 
 	void ew::Actor::update(float dt) {
