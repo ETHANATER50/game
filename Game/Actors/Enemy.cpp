@@ -24,11 +24,17 @@ void Enemy::update(float dt) {
 
 	ew::Vector2 direction = target->getTransform().position - getTransform().position;
 	direction.normalize();
-	ew::Vector2 enemyVelocity = direction * thrust;
-	getTransform().position += enemyVelocity * dt;
+	ew::Vector2 Velocity = direction * thrust;
+	getTransform().position += 0;// Velocity* dt;
 
 	getTransform().angle = std::atan2(direction.y, direction.x) + ew::degreesToRadians(90);
 
 	transform.update();
 
+}
+
+void Enemy::onCollision(Actor* actor) {
+	if (actor->getType() == eType::PROJECTILE) {
+		destroy = true;
+	}
 }

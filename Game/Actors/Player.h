@@ -7,6 +7,8 @@ public:
 	Player() {}
 	virtual ~Player() {}
 
+	virtual eType getType() override { return eType::PLAYER; }
+
 	virtual bool load(const std::string& filename) override;
 	virtual void update(float dt) override;
 

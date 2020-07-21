@@ -30,3 +30,9 @@ void Projectile::update(float dt) {
 	transform.update();
 
 }
+
+void Projectile::onCollision(Actor* actor) {
+	if (actor->getType() == eType::ENEMY) {
+		destroy = true;
+	}
+}
