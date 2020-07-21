@@ -2,8 +2,12 @@
 #include "Color.h"
 
 namespace ew {
-	std::istream& operator>>(std::istream& stream, Color& c)
-	{
+	Color const Color::white{ 1, 1, 1 };
+	Color const Color::red{ 1, 0, 0 };
+	Color const Color::green{ 0, 1, 0 };
+	Color const Color::blue{ 0, 0, 1 };
+
+	std::istream& operator>>(std::istream& stream, Color& c) {
 		std::string line;
 		std::getline(stream, line);
 

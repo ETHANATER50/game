@@ -3,6 +3,7 @@
 #include "Actors/Player.h"
 #include "Actors/Enemy.h"
 #include "Object/Scene.h"
+#include "Graphics/ParticleSystem.h"
 #include <iostream>
 #include <string>
 #include <list>
@@ -18,6 +19,7 @@ DWORD prevTime;
 DWORD deltaTime;
 
 ew::Scene scene;
+ew::ParticleSystem ps;
 
 
 bool Update(float dt) { 
@@ -38,14 +40,28 @@ bool Update(float dt) {
 
 	roundTime += dt;
 
+
+	Player* player = scene.getActor<Player>();
+	ps.create(player->getTransform().position, player->getTransform().angle + ew::PI, 20, 1, 0.5f, ew::Color{ 1, 1, 0 }, 100, 200);
+	
+	int x, y;
+	Core::Input::GetMousePos(x, y);
+
+	if (Core::Input::IsPressed(Core::Input::BUTTON_LEFT)) {
+		ew::Color colors[] = { {1,1,1}, ew::Color::red, {1,1,0}, {0,1,1} };
+		ew::Color color = colors[rand() % 4];
+		ps.create({ x,y }, 0, 180, 30, 1, color, 100, 200);
+
+	}
+
 	t = t + (dt * 3.0f);
 
-	if (Core::Input::IsPressed(VK_SPACE)) {
-		auto enemies = scene.getActors<Enemy>();
-		for (Enemy* enemy : enemies) {
-			scene.removeActor(enemy);
-		}
-	}
+	//if (Core::Input::IsPressed(VK_SPACE)) {
+	//	auto enemies = scene.getActors<Enemy>();
+	//	for (Enemy* enemy : enemies) {
+	//		scene.removeActor(enemy);
+	//	}
+	//}
 
 	bool quit = Core::Input::IsPressed(Core::Input::KEY_ESCAPE);
 
@@ -53,7 +69,7 @@ bool Update(float dt) {
 	deltaTime = time - prevTime;
 	prevTime = time;
 
-
+	ps.update(dt);
 	scene.update(dt);
 
 	return quit; 
@@ -67,7 +83,7 @@ void Draw(Core::Graphics& graphics) {
 	float v = (std::sin(t) + 1.0f) * 0.5f;
 
 
-
+	ps.draw(graphics);
 	scene.draw(graphics);
 
 }
@@ -77,6 +93,7 @@ int main() {
 	std::cout << time / 1000 / 60 / 60 / 24 << std::endl;
 
 	scene.startup();
+	ps.startup();
 
 	Player* player = new Player;
 	player->load("player.txt");
@@ -100,5 +117,6 @@ int main() {
 	Core::GameLoop(); 
 	Core::Shutdown(); 
 	scene.shutdown();
+	ps.shutdown();
 }
 

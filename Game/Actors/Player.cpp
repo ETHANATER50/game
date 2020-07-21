@@ -1,5 +1,7 @@
 #include "Player.h"
+#include "Projectile.h"
 #include "Math/Math.h" 
+#include "Object/Scene.h"
 #include <fstream>
 
 bool Player::load(const std::string& filename) {
@@ -22,6 +24,17 @@ bool Player::load(const std::string& filename) {
 }
 
 void Player::update(float dt) {
+	fireTimer += dt;
+
+	if (Core::Input::IsPressed(VK_SPACE)&& fireTimer >= fireRate) {
+		Projectile* e = new Projectile;
+		e->load("projectile.txt");
+		e->getTransform().position = transform.position;
+		e->getTransform().angle = transform.angle;
+		scene->addActor(e);
+		fireTimer = 0;
+	}
+
 	ew::Vector2 force;
 	if (Core::Input::IsPressed('W')) {
 		force = ew::Vector2::forward * thrust;
@@ -30,7 +43,7 @@ void Player::update(float dt) {
 	force = ew::Vector2::rotate(force, transform.angle);
 
 	velocity = velocity + (force * dt);
-	velocity *= 0.98;
+	velocity *= 0.98f;
 	transform.position += velocity * dt;
 
 	if (transform.position.x > 800) transform.position.x = 0;

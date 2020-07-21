@@ -40,6 +40,11 @@ namespace ew {
 
 		operator COLORREF() const { return pack888(); }
 
+		static const Color red;
+		static const Color white;
+		static const Color blue;
+		static const Color green;
+
 	};
 
 	inline COLORREF Color::pack888() const {

@@ -25,6 +25,7 @@ void ew::Scene::draw(Core::Graphics& graphics) {
 }
 
 void ew::Scene::addActor(Actor* actor) {
+	actor->setScene(this);
 	actors.push_back(actor);
 }
 

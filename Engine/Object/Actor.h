@@ -4,6 +4,8 @@
 
 
 namespace ew {
+	class Scene;
+
 	class Actor {
 	public:
 		Actor() {}
@@ -17,10 +19,13 @@ namespace ew {
 		virtual void update(float dt);
 		void draw(Core::Graphics& graphics);
 
+
+		void setScene(Scene* _scene) { scene = _scene; }
 		Transform& getTransform() { return transform; }
 		Shape& getShape() { return shape; }
 
 	protected:
+		Scene* scene{ nullptr };
 		Transform transform;
 		Shape shape;
 	};
