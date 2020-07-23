@@ -26,6 +26,13 @@ namespace ew {
 
 			stream.close();
 		}
+		radius = 0;
+		for (size_t i = 0; i < points.size(); i++) {
+			ew::Vector2 p1 = points[i];
+			float length = p1.length();
+
+			if (length > radius) radius = length;
+		}
 			return success;
 
 	}

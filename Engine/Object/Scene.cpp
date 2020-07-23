@@ -20,7 +20,7 @@ void ew::Scene::update(float dt) {
 		for (size_t j = i + 1; j < _actors.size(); j++) {
 
 			float distance = ew::Vector2::distance(_actors[i]->getTransform().position, _actors[j]->getTransform().position);
-			if (distance <= 10) {
+			if (distance <= (_actors[i]->getRadius() + _actors[j]->getRadius())) {
 				_actors[i]->onCollision(_actors[j]);
 				_actors[j]->onCollision(_actors[i]);
 			}

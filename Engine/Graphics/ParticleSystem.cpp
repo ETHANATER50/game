@@ -3,9 +3,11 @@
 #include "Math/Random.h"
 #include "Math/Math.h"
 
+ew::ParticleSystem particleSystem;
+
 namespace ew {
 	void ParticleSystem::startup() {
-		size = 600;
+		size = 3000;
 		particles = new Particle[size];
 	}
 

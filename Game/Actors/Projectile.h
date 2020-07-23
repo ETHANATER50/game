@@ -17,5 +17,6 @@ public:
 
 protected:
 	float thrust{ 0.0f };
+	float lifetime{ 3 };
 };
 

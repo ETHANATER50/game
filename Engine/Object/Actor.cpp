@@ -33,5 +33,9 @@ namespace ew {
 	void ew::Actor::draw(Core::Graphics& graphics) {
 		shape.draw(graphics, transform);
 	}
+	float Actor::getRadius()
+	{
+		return shape.getRadius() * transform.scale;
+	}
 }
 

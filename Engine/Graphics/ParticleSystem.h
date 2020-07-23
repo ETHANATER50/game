@@ -28,3 +28,5 @@ namespace ew {
 		size_t size;
 	};
 }
+
+extern ew::ParticleSystem particleSystem;

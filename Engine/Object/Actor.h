@@ -31,6 +31,8 @@ namespace ew {
 
 		virtual void onCollision(Actor* actor) {}
 
+		float getRadius();
+
 		bool isDestroy() { return destroy; }
 
 		void setScene(Scene* _scene) { scene = _scene; }

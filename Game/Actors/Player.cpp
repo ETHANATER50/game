@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Projectile.h"
+#include "Graphics/ParticleSystem.h"
 #include "Math/Math.h" 
 #include "Object/Scene.h"
 #include <fstream>
@@ -53,6 +54,11 @@ void Player::update(float dt) {
 
 	if (Core::Input::IsPressed('A')) transform.angle -= dt * ew::degreesToRadians(yawRate);
 	if (Core::Input::IsPressed('D')) transform.angle += dt * ew::degreesToRadians(yawRate);
+
+	if (force.lengthSqr() > 0) {
+		particleSystem.create(transform.position, transform.angle + ew::PI, 20, 1, 0.5f, ew::Color{ 1, 1, 0 }, 100, 200);
+	}
+
 
 	transform.update();
 }
