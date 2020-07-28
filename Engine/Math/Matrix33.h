@@ -37,7 +37,7 @@ namespace ew {
 			m[0][2] = v.x; m[1][2] = v.y; m[2][2] = 1;
 		}
 
-		Vector2 getPosition() {
+		Vector2 getPosition() const {
 			return { m[0][2], m[1][2] };
 		}
 
