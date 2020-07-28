@@ -6,10 +6,7 @@ void ew::Scene::startup() {
 }
 
 void ew::Scene::shutdown() {
-	for (Actor* a : actors) {
-		delete a;
-	}
-	actors.clear();
+	removeAllActors();
 }
 
 void ew::Scene::update(float dt) {

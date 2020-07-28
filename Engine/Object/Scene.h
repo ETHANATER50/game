@@ -5,7 +5,9 @@
 #include <list>
 
 
+
 namespace ew {
+	class Game;
 	class Scene {
 	public:
 		void startup();
@@ -16,6 +18,12 @@ namespace ew {
 
 		void addActor(class Actor* actor);
 		void removeActor(class Actor* object);
+		void removeAllActors() {
+			for (Actor* a : actors) {
+				delete a;
+			}
+			actors.clear();
+		}
 
 		template <typename T>
 		T* getActor() {
@@ -43,7 +51,11 @@ namespace ew {
 			return foundActors;
 		}
 
+		void setGame(Game* _game) { game = _game; }
+		Game* getGame() { return game; }
+
 	private:
+		Game* game;
 		std::list<class Actor*> actors;
 	};
 }

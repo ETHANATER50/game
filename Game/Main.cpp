@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Graphics/ParticleSystem.h"
+#include <time.h>
 
 
 
@@ -17,9 +18,12 @@ void Draw(Core::Graphics& graphics) {
 }
 int main() { 
 
+	//srand(time(NULL));
+
 	char name[] = "CSC196"; 
 	Core::Init(name, 800, 600); 
 	game.initialize();
+	particleSystem.startup();
 	Core::RegisterUpdateFn(Update); 
 	Core::RegisterDrawFn(Draw); 
 	Core::GameLoop(); 

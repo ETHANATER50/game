@@ -1,6 +1,8 @@
 #include "Enemy.h"
 #include "Math/Math.h"
 #include "Graphics/ParticleSystem.h"
+#include "Object/Scene.h"
+#include "../Game.h"
 #include<fstream>
 
 bool Enemy::load(const std::string& filename) {
@@ -22,8 +24,8 @@ bool Enemy::load(const std::string& filename) {
 }
 
 void Enemy::update(float dt) {
-
-	ew::Vector2 direction = target->getTransform().position - getTransform().position;
+	ew::Vector2 targetPos = (target) ? target->getTransform().position : ew::Vector2{ 400, 300 };
+	ew::Vector2 direction = targetPos - getTransform().position;
 	direction.normalize();
 	ew::Vector2 Velocity = direction * thrust;
 	getTransform().position += 0;// Velocity* dt;
@@ -37,6 +39,8 @@ void Enemy::update(float dt) {
 void Enemy::onCollision(Actor* actor) {
 	if (actor->getType() == eType::PROJECTILE) {
 		destroy = true;
+		scene->getGame()->appPoints(100);
+
 		ew::Color colors[] = { {1,1,1}, ew::Color::red, {1,1,0}, {0,1,1} };
 		ew::Color color = colors[rand() % 4];
 		particleSystem.create(transform.position, 0, 180, 30, 1, color, 100, 200);

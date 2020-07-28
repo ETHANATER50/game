@@ -12,7 +12,8 @@ namespace ew {
 		enum class eType {
 			PLAYER,
 			ENEMY,
-			PROJECTILE	
+			PROJECTILE,
+			LOCATOR
 		};
 
 
@@ -39,10 +40,19 @@ namespace ew {
 		Transform& getTransform() { return transform; }
 		Shape& getShape() { return shape; }
 
+		Actor* getParent() { return parent; }
+		Actor* getChild() { return child; }
+
+		void setParent(Actor* _parent) { parent = _parent; _parent->child = this; }
+		void setChild(Actor* _child) { child = _child; _child->parent = this; }
+
 	protected:
 		bool destroy{ false };
 		Scene* scene{ nullptr };
 		Transform transform;
 		Shape shape;
+
+		Actor* parent{ nullptr };
+		Actor* child{ nullptr };
 	};
 }

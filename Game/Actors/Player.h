@@ -12,10 +12,14 @@ public:
 	virtual bool load(const std::string& filename) override;
 	virtual void update(float dt) override;
 
+	virtual void onCollision(Actor* actor) override;
+
 protected:
 	float thrust{ 200.0f };
 	ew::Vector2 velocity;
 	float yawRate;
 	float fireRate{ 0.2f };
 	float fireTimer;
+
+	bool prevButtonPress{ false };
 };
