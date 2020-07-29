@@ -28,6 +28,7 @@ void ew::Scene::update(float dt) {
 	auto iter = actors.begin();
 	while (iter != actors.end()) {
 		if ((*iter)->isDestroy()) {
+			(*iter)->clearChildren();
 			delete(*iter);
 			iter = actors.erase(iter);
 		}

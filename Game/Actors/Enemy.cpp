@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "Math/Math.h"
 #include "Graphics/ParticleSystem.h"
+#include "Audio/AudioSystem.h"
 #include "Object/Scene.h"
 #include "../Game.h"
 #include<fstream>
@@ -39,6 +40,7 @@ void Enemy::update(float dt) {
 void Enemy::onCollision(Actor* actor) {
 	if (actor->getType() == eType::PROJECTILE) {
 		destroy = true;
+		audioSystem.playAudio("EnemyDeath");
 		scene->getGame()->appPoints(100);
 
 		ew::Color colors[] = { {1,1,1}, ew::Color::red, {1,1,0}, {0,1,1} };

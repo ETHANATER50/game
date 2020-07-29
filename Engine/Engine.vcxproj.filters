@@ -101,5 +101,8 @@
     <ClCompile Include="Graphics\ParticleSystem.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Audio\AudioSystem.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

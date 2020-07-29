@@ -5,11 +5,12 @@
 namespace ew{
 	struct Transform {
 		Vector2 position;
-		float scale, angle;
+		float scale{ 1 };
+		float angle{ 0 };
 
 		Matrix33 matrix;
 
-		Transform() : position{ 0, 0 }, scale{ 0 }, angle{ 0 } {}
+		Transform() : position{ 0, 0 }, scale{ 1 }, angle{ 0 } {}
 		Transform(Vector2 position, float scale = 1, float angle = 0) : position{ position }, scale{ scale }, angle{ angle } {}
 
 		void update();

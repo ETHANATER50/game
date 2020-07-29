@@ -196,6 +196,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Audio\AudioSystem.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Graphics\ParticleSystem.cpp" />
     <ClCompile Include="Graphics\Shape.cpp" />

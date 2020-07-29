@@ -2,7 +2,13 @@
 #include "Actor.h"
 
 namespace ew {
-
+	void Actor::clearChildren() {
+		for (auto child : children) {
+			child->clearChildren();
+			delete child;
+		}
+		children.clear();
+	}
 	bool ew::Actor::load(const std::string& filename) {
 		bool success = false;
 
@@ -36,6 +42,10 @@ namespace ew {
 	float Actor::getRadius()
 	{
 		return shape.getRadius() * transform.scale;
+	}
+	void Actor::addChild(Actor* child){
+		child->parent = this;
+		children.push_back(child);
 	}
 }
 

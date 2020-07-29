@@ -22,6 +22,8 @@ namespace ew {
 
 		~Actor() {}
 
+		virtual void clearChildren();
+
 		virtual eType getType() = 0;
 
 		virtual bool load(const std::string& filename);
@@ -41,10 +43,7 @@ namespace ew {
 		Shape& getShape() { return shape; }
 
 		Actor* getParent() { return parent; }
-		Actor* getChild() { return child; }
-
-		void setParent(Actor* _parent) { parent = _parent; _parent->child = this; }
-		void setChild(Actor* _child) { child = _child; _child->parent = this; }
+		void addChild(Actor* child);
 
 	protected:
 		bool destroy{ false };
@@ -53,6 +52,6 @@ namespace ew {
 		Shape shape;
 
 		Actor* parent{ nullptr };
-		Actor* child{ nullptr };
+		std::vector<Actor*> children;
 	};
 }

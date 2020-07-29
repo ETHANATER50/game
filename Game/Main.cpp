@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Graphics/ParticleSystem.h"
+#include "Audio/AudioSystem.h"
 #include <time.h>
 
 
@@ -24,11 +25,13 @@ int main() {
 	Core::Init(name, 800, 600); 
 	game.initialize();
 	particleSystem.startup();
+	audioSystem.startup();
 	Core::RegisterUpdateFn(Update); 
 	Core::RegisterDrawFn(Draw); 
 	Core::GameLoop(); 
 	Core::Shutdown(); 
 	//scene.shutdown();
 	particleSystem.shutdown();
+	audioSystem.shutdown();
 }
 

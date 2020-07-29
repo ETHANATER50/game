@@ -1,9 +1,11 @@
 #include "Game.h"
 #include "Math/Random.h"
+#include "Math/Math.h"
 #include "Actors/Player.h"
 #include "Actors/Enemy.h"
 #include "Actors/Locator.h"
 #include "Graphics/ParticleSystem.h"
+#include "Audio/AudioSystem.h"
 #include <iostream>
 #include <string>
 #include <list>
@@ -15,6 +17,12 @@ namespace ew {
 
 		scene.startup();
 		scene.setGame(this);
+
+		audioSystem.addAudio("Shoot", "shoot.wav");
+		audioSystem.addAudio("PlayerDeath", "PlayerDeath.wav");
+		audioSystem.addAudio("EnemyDeath", "EnemyDeath.wav");
+		audioSystem.addAudio("Alert", "alert.wav");
+
 
 
 	}
@@ -65,16 +73,24 @@ namespace ew {
 				Player* player = new Player;
 				player->load("player.txt");
 				scene.addActor(player);
+
 				Locator* locator = new Locator;
-				locator->getTransform().position = ew::Vector2{ 0, 2 };
-				player->setChild(locator);
+				locator->getTransform().position = ew::Vector2{ 3, 2 };
+				player->addChild(locator);
+				locator = new Locator;
+				locator->getTransform().position = ew::Vector2{ -3, 2 };
+				player->addChild(locator);
 
 				for (size_t i = 0; i < 10; i++) {
 
 					ew::Actor* e = new Enemy;
 					e->load("enemy.txt");
-					dynamic_cast<Enemy*>(e)->setTarget(player);
-					e->getTransform().position = { ew::random(0, 800), ew::random(0,600) };
+					dynamic_cast<Enemy*>(e)->setTarget(scene.getActor<Player>());
+					float distance = ew::random(100, 300);
+					float angle = ew::random(0, ew::TWO_PI);
+					ew::Vector2 position = ew::Vector2::rotate({ 0.0f, distance }, angle);
+
+					e->getTransform().position = scene.getActor<Player>()->getTransform().position + position;//{ ew::random(0, 800), ew::random(0,600) };
 					dynamic_cast<Enemy*>(e)->setThrust(ew::random(50, 150));
 					scene.addActor(e);
 				}
@@ -84,14 +100,21 @@ namespace ew {
 
 			break;
 		case Game::State::GAME:
-			if (spawnTimer >= 3.0f) {
-				Enemy* e = new Enemy;
-				e->load("enemy.txt");
-				e->setTarget(scene.getActor<Player>());
-				e->getTransform().position = { ew::random(0, 800), ew::random(0,600) };
-				e->setThrust(ew::random(50, 150));
-				scene.addActor(e);
+			if (spawnTimer >= 5.0f) {
+				for (size_t i = 0; i < 5; i++) {
 
+					ew::Actor* e = new Enemy;
+					e->load("enemy.txt");
+					dynamic_cast<Enemy*>(e)->setTarget(scene.getActor<Player>());
+					float distance = ew::random(100, 300);
+					float angle = ew::random(0, ew::TWO_PI);
+					ew::Vector2 position = ew::Vector2::rotate({ 0.0f, distance }, angle);
+
+					e->getTransform().position = scene.getActor<Player>()->getTransform().position + position;//{ ew::random(0, 800), ew::random(0,600) };
+					dynamic_cast<Enemy*>(e)->setThrust(ew::random(50, 150));
+					scene.addActor(e);
+				}
+				audioSystem.playAudio("Alert");
 				spawnTimer = 0;
 
 			}
@@ -125,6 +148,7 @@ namespace ew {
 
 		scene.update(dt);
 		particleSystem.update(dt);
+		audioSystem.update(dt);
 
 
 		return quit;

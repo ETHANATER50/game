@@ -19,3 +19,5 @@ namespace ew {
 		std::map<std::string, FMOD::Sound*> sounds;
 	};
 }
+
+extern ew::AudioSystem audioSystem;

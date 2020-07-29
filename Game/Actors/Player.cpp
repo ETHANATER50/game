@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "Projectile.h"
 #include "Graphics/ParticleSystem.h"
+#include "Audio/AudioSystem.h"
 #include "Math/Math.h" 
 #include "Math/Random.h"
 #include "Object/Scene.h"
@@ -37,6 +38,7 @@ void Player::update(float dt) {
 		e->getTransform().angle = transform.angle;
 		scene->addActor(e);
 		fireTimer = 0;
+		audioSystem.playAudio("Shoot");
 	}
 
 	ew::Vector2 force;
@@ -55,14 +57,27 @@ void Player::update(float dt) {
 	if (transform.position.y > 600) transform.position.y = 0;
 	if (transform.position.y < 0) transform.position.y = 600;
 
-	if (Core::Input::IsPressed('A')) transform.angle -= dt * ew::degreesToRadians(yawRate);
-	if (Core::Input::IsPressed('D')) transform.angle += dt * ew::degreesToRadians(yawRate);
+
+	float torque{ 0 };
+	if (Core::Input::IsPressed('A')) torque = -20.0f;//transform.angle -= dt * ew::degreesToRadians(yawRate);
+	if (Core::Input::IsPressed('D')) torque = 20.0f;//transform.angle += dt * ew::degreesToRadians(yawRate);
+
+	angularVelocity += torque * dt;
+	angularVelocity *= 0.95f;
+	transform.angle += angularVelocity * dt;
 
 	if (force.lengthSqr() > 0) {
-		ew::Vector2 childPosition = child->getTransform().matrix.getPosition();
 
-		particleSystem.create(childPosition, transform.angle + ew::PI, 20, 1, 0.5f, ew::Color{ 1, 1, 0 }, 100, 200);
+		Actor* child = children[0];
+
+		particleSystem.create(child->getTransform().matrix.getPosition(), child->getTransform().matrix.getAngle() + ew::PI, 20, 1, 0.5f, ew::Color{ 1, 1, 0 }, 100, 200);
+	
+		child = children[1];
+
+		particleSystem.create(child->getTransform().matrix.getPosition(), child->getTransform().matrix.getAngle() + ew::PI, 20, 1, 0.5f, ew::Color{ 1, 1, 0 }, 100, 200);
+
 	}
+
 
 	if (Core::Input::IsPressed('E') && !prevButtonPress) {
 		transform.position = ew::Vector2{ ew::random(0, 800), ew::random(0, 600) };
@@ -73,7 +88,7 @@ void Player::update(float dt) {
 
 	transform.update();
 
-	if (child) {
+	for (auto child : children) {
 		child->update(dt);
 	}
 }
@@ -81,6 +96,7 @@ void Player::update(float dt) {
 void Player::onCollision(Actor* actor) {
 	if (!destroy && actor->getType() == eType::ENEMY) {
 		destroy = true;
+		audioSystem.playAudio("PlayerDeath");
 		scene->getGame()->setState(ew::Game::State::PLAYER_DEAD);
 
 		auto enemies = scene->getActors<Enemy>();
