@@ -23,9 +23,9 @@ int main() {
 
 	char name[] = "CSC196"; 
 	Core::Init(name, 800, 600); 
+	audioSystem.startup();
 	game.initialize();
 	particleSystem.startup();
-	audioSystem.startup();
 	Core::RegisterUpdateFn(Update); 
 	Core::RegisterDrawFn(Draw); 
 	Core::GameLoop(); 
