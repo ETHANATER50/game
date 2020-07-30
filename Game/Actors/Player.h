@@ -14,6 +14,7 @@ public:
 
 	virtual void onCollision(Actor* actor) override;
 
+
 protected:
 	float thrust{ 200.0f };
 	ew::Vector2 velocity;

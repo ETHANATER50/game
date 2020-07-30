@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "Math/Math.h"
+#include "Math/Random.h"
 #include "Graphics/ParticleSystem.h"
 #include "Audio/AudioSystem.h"
 #include "Object/Scene.h"
@@ -29,7 +30,7 @@ void Enemy::update(float dt) {
 	ew::Vector2 direction = targetPos - getTransform().position;
 	direction.normalize();
 	ew::Vector2 Velocity = direction * thrust;
-	getTransform().position += 0;// Velocity* dt;
+	getTransform().position += Velocity* dt;
 
 	getTransform().angle = std::atan2(direction.y, direction.x) + ew::degreesToRadians(90);
 
@@ -47,4 +48,11 @@ void Enemy::onCollision(Actor* actor) {
 		ew::Color color = colors[rand() % 4];
 		particleSystem.create(transform.position, 0, 180, 30, 1, color, 100, 200);
 	}
+}
+
+std::string Enemy::getRandomShip()
+{
+	int shipIndex = ew::random(0, 3);
+
+	return ships.at(shipIndex);
 }

@@ -41,6 +41,7 @@ void Player::update(float dt) {
 		audioSystem.playAudio("Shoot");
 	}
 
+
 	ew::Vector2 force;
 	if (Core::Input::IsPressed('W')) {
 		force = ew::Vector2::forward * thrust;
@@ -82,6 +83,9 @@ void Player::update(float dt) {
 	if (Core::Input::IsPressed('E') && !prevButtonPress) {
 		transform.position = ew::Vector2{ ew::random(0, 800), ew::random(0, 600) };
 		transform.angle =  ew::random(0, ew::TWO_PI);
+		audioSystem.playAudio("Warp");
+		particleSystem.create(transform.position, 0, 180, 100, 1, {1,0,1}, 100, 200);
+
 	}
 
 	prevButtonPress = Core::Input::IsPressed('E');

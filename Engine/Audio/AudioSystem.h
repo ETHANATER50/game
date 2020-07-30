@@ -12,11 +12,16 @@ namespace ew {
 		void update(float dt);
 
 		void addAudio(const std::string& name, const std::string& filename);
-		void playAudio(const std::string& name);
+		void playAudio(const std::string& name, bool loop = false);
+
+		void endLoop();
+
+		bool isLooping();
 
 	private:
 		FMOD::System* system;
 		std::map<std::string, FMOD::Sound*> sounds;
+		FMOD::Channel* loopChannel{ nullptr };
 	};
 }
 

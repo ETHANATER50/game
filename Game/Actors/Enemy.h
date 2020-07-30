@@ -16,8 +16,11 @@ public:
 	void setTarget(Actor* actor) { target = actor; }
 	void setThrust(float _speed) { thrust = _speed; };
 
+	std::string getRandomShip();
+
 protected:
 	float thrust{ 0.0f };
 	Actor* target{ nullptr };
+	std::vector<std::string> ships{"enemy1.txt", "enemy2.txt", "enemy3.txt" };
 };
 

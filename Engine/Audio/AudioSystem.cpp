@@ -35,13 +35,25 @@ namespace ew {
 		}
 	}
 
-	void ew::AudioSystem::playAudio(const std::string& name) {
+	void ew::AudioSystem::playAudio(const std::string& name, bool loop) {
 		auto iter = sounds.find(name);
 		if (iter != sounds.end()) {
 			FMOD::Sound* sound = iter->second;
-			sound->setMode(FMOD_LOOP_OFF);
+			FMOD_MODE mode = (loop) ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
+			sound->setMode(mode);
 			FMOD::Channel* channel;
 			system->playSound(sound, 0, false, &channel);
+
+			if (loop) {
+				loopChannel = channel;
+			}
 		}
+	}
+	void AudioSystem::endLoop() {
+		if(loopChannel) loopChannel->stop();
+	}
+	bool AudioSystem::isLooping()
+	{
+		return (loopChannel);
 	}
 }
