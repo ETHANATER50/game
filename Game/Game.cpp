@@ -99,7 +99,7 @@ namespace ew {
 				locator->getTransform().position = ew::Vector2{ -4, 2 };
 				player->addChild(locator);
 
-				for (size_t i = 0; i < 10; i++) {
+				for (size_t i = 0; i < 7; i++) {
 
 					ew::Actor* e = new Enemy;
 					e->load(dynamic_cast<Enemy*>(e)->getRandomShip());
@@ -121,7 +121,7 @@ namespace ew {
 			break;
 		case Game::State::GAME:
 			if (spawnTimer >= 6.0f) {
-				for (size_t i = 0; i < 8; i++) {
+				for (size_t i = 0; i < 5; i++) {
 
 					ew::Actor* e = new Enemy;
 					e->load(dynamic_cast<Enemy*>(e)->getRandomShip());
